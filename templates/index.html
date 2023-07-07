@@ -7,12 +7,37 @@
     <title>Virus Analyzer</title>
 </head>
 <body>
+<p>Click on the "Choose File" button to upload a file:</p>
+
+<form id="file_form" enctype="multipart/form-data" method="post">
+  <input type="file" id="myFile" name="filename">
+  <input type="submit" onclick="SendFile()">
+</form>
 
 <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-
 <script>
-var xValues = ["Zararli", "Zararsiz"];
-var yValues = [55, 49];
+        function SendFile() {
+   alert("Submit button clicked!");
+   const fileInput = document.getElementById('myFile');
+   const file = fileInput.files[0];
+   const formData = new FormData();
+   formData.append('file', file);
+   fetch('/upload', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(data => {
+    // Handle the response from the Python app
+    console.log(data);
+  })
+  .catch(error => {
+    // Handle any errors
+    console.error(error);
+  });
+}
+    var xValues = ["Malicious", "Undetected"];
+var yValues = [{{ Malicious }}, {{ Undetected }}];
 var barColors = [
   "#b91d47",
   "#1e7145"
@@ -35,6 +60,6 @@ new Chart("myChart", {
   }
 });
 </script>
-
+<script src="{{ url_for('static', filename= 'script.js') }}"></script>
 </body>
 </html>
