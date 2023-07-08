@@ -1,43 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
-    <title>Virus Analyzer</title>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+  <title>Virus Analyzer</title>
 </head>
 <body>
-<p>Click on the "Choose File" button to upload a file:</p>
+<div class="jumbotron text-center">
+  <h1>Virus Analyzer</h1>
+  <p>Upload the file!</p>
 
-<form id="file_form" enctype="multipart/form-data" method="post">
-  <input type="file" id="myFile" name="filename">
-  <input type="submit" onclick="SendFile()">
-</form>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Upload File</h3>
+          <form action="/upload_file" method="post" enctype="multipart/form-data">
+    <label class="form-label" for="customFile">File</label>
+    <input class="form-control" id="fileInput" name="file" type="file" /><br>
+    <button class="btn btn-primary" id="upload_button">Upload</button>
+  </form>
+    </div>
+    <div class="col-sm-4">
+      <h3>Statistics</h3>
+      <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+    </div>
+    <div class="col-sm-4">
+      <h3>File Preferences</h3>
+        <dl>
+                <dt>Size</dt>
+    <dd id="size"></dd>
+    <dt>SHA1</dt>
+    <dd id="sha1"></dd>
 
-<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+    <dt>SHA256</dt>
+    <dd id="sha256"></dd>
+                <dt>MD5</dt>
+    <dd id="md5"></dd>
+  </dl>    </div>
+  </div>
+</div>
 <script>
-        function SendFile() {
-   alert("Submit button clicked!");
-   const fileInput = document.getElementById('myFile');
-   const file = fileInput.files[0];
-   const formData = new FormData();
-   formData.append('file', file);
-   fetch('/upload', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.text())
-  .then(data => {
-    // Handle the response from the Python app
-    console.log(data);
-  })
-  .catch(error => {
-    // Handle any errors
-    console.error(error);
-  });
+    document.getElementById("upload_button").onclick = () => {
+        let fileElement = document.getElementById('fileInput')
+        const file = fileElement.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        fetch('/upload_file', {
+            method: 'POST',
+            body: formData
+        })
+        if (fileElement.files.length === 0) {
+            alert('please choose a file')
+        }
+    }
+    function getAllUrlParams(url) {
+
+  // get query string from url (optional) or window
+  var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+  // we'll store the parameters here
+  var obj = {};
+
+  // if query string exists
+  if (queryString) {
+
+    // stuff after # is not part of query string, so get rid of it
+    queryString = queryString.split('#')[0];
+
+    // split our query string into its component parts
+    var arr = queryString.split('&');
+
+    for (var i = 0; i < arr.length; i++) {
+      // separate the keys and the values
+      var a = arr[i].split('=');
+
+      // set parameter name and value (use 'true' if empty)
+      var paramName = a[0];
+      var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+      // (optional) keep case consistent
+      paramName = paramName.toLowerCase();
+      if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
+
+      // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+      if (paramName.match(/\[(\d+)?\]$/)) {
+
+        // create key if it doesn't exist
+        var key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) obj[key] = [];
+
+        // if it's an indexed array e.g. colors[2]
+        if (paramName.match(/\[\d+\]$/)) {
+          // get the index value and add the entry at the appropriate position
+          var index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          // otherwise add the value to the end of the array
+          obj[key].push(paramValue);
+        }
+      } else {
+        // we're dealing with a string
+        if (!obj[paramName]) {
+          // if it doesn't exist, create property
+          obj[paramName] = paramValue;
+        } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+          // if property does exist and it's a string, convert it to an array
+          obj[paramName] = [obj[paramName]];
+          obj[paramName].push(paramValue);
+        } else {
+          // otherwise add the property
+          obj[paramName].push(paramValue);
+        }
+      }
+    }
+  }
+
+  return obj;
 }
+document.getElementById('sha1').innerHTML = getAllUrlParams().sha1;
+    document.getElementById('sha256').innerHTML = getAllUrlParams().sha256;
+document.getElementById('md5').innerHTML = getAllUrlParams().md5;
+document.getElementById('size').innerHTML = getAllUrlParams().file_size;
+
+
     var xValues = ["Malicious", "Undetected"];
-var yValues = [{{ Malicious }}, {{ Undetected }}];
+var yValues = [getAllUrlParams().malicious, getAllUrlParams().undetected];
 var barColors = [
   "#b91d47",
   "#1e7145"
@@ -55,7 +149,7 @@ new Chart("myChart", {
   options: {
     title: {
       display: true,
-      text: "Virus Skoru"
+      text: 'Virus Stat'
     }
   }
 });
