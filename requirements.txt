@@ -3,28 +3,10 @@ aiosignal==1.3.1
 async-timeout==4.0.2
 attrs==23.1.0
 brotlipy==0.7.0
-certifi==2021.10.8
-cffi @ file:///Users/runner/miniforge3/conda-bld/cffi_1631636293358/work
-chardet @ file:///Users/runner/miniforge3/conda-bld/chardet_1610093454858/work
-charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1626371162869/work
-colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1602866480661/work
-conda==4.10.3
-conda-package-handling @ file:///Users/runner/miniforge3/conda-bld/conda-package-handling_1618231726924/work
-cryptography @ file:///Users/runner/miniforge3/conda-bld/cryptography_1633983374178/work
 docopt==0.6.2
 frozenlist==1.3.3
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1609836280497/work
 multidict==6.0.4
 pipreqs==0.4.13
-pycosat @ file:///Users/runner/miniforge3/conda-bld/pycosat_1624996792650/work
-pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
-pyOpenSSL @ file:///home/conda/feedstock_root/build_artifacts/pyopenssl_1633192417276/work
-PySocks @ file:///Users/runner/miniforge3/conda-bld/pysocks_1610291460269/work
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1626393743643/work
-ruamel-yaml-conda @ file:///Users/runner/miniforge3/conda-bld/ruamel_yaml_1624999868738/work
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
-tqdm @ file:///home/conda/feedstock_root/build_artifacts/tqdm_1632160078689/work
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1632350318291/work
 vt-py==0.17.5
 yarg==0.1.9
 yarl==1.9.2
