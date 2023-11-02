@@ -8,7 +8,7 @@ url_get_report = "https://www.virustotal.com/api/v3/files/"
 
 headers = {
         "accept": "application/json",
-        "x-apikey": "c035c79d060802fd45ec0fb4c9b8a81692ce70fba881e657611a4b87beec9c29"
+        "x-apikey": "" # VT API
     }
 
 @app.route('/upload_file', methods=["POST"])
