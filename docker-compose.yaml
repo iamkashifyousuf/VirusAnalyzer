@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  myapp:
+    image: pentesterest-volkan/VirusAnalyzer
+    container_name: myapp
+    ports:
+      - "5000:5000"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
