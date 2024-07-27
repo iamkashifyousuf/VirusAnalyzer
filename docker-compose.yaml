@@ -1,8 +1,8 @@
-version: '3.8'
-
 services:
   myapp:
-    image: pentesterest-volkan/VirusAnalyzer
+    build:
+      context: .
+    image: iamkashifyousuf/virus-analyzer:latest
     container_name: myapp
     ports:
       - "5000:5000"
